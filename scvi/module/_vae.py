@@ -505,7 +505,8 @@ class VAE(EmbeddingModuleMixin, BaseMinifiedModeModuleClass):
             size_factor = library
         if self.use_additive_background:
             additive_background = (
-                one_hot(batch_index, self.n_batch) @ torch.exp(self.additive_background).T
+                one_hot(batch_index.squeeze(-1), self.n_batch).float()
+                @ torch.exp(self.additive_background).T
             )
         else:
             additive_background = torch.zeros_like(library)
